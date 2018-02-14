@@ -41,8 +41,7 @@ class Album
     (
       $1, $2, $3
     )
-    WHERE id = $4
-    ;"
+    WHERE id = $4;"
     SqlRunner.run(sql, [@title, @genre, @artist_id, @id])
   end
 
@@ -55,7 +54,7 @@ class Album
   def Album.find(id_number)
     sql = "SELECT * FROM albums WHERE id = $1"
     result = SqlRunner.run(sql, [id_number])
-    return result.map {|album| Album.new(album)}
+    return Album.new(result[0])
   end
 
   def Album.delete_all()
@@ -65,8 +64,8 @@ class Album
 
   def Album.all()
     sql = "SELECT * FROM albums;"
-    albums = SqlRunner.run(sql)
-    return albums.map {|albums_hash| Album.new(albums_hash)}
+    result = SqlRunner.run(sql)
+    return result.map {|albums| Album.new(albums)}
   end
 
 end
